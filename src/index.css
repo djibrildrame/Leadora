@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────
+   STYLES DE BASE (s'appliquent à tout le site)
+   ───────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-cream font-sans text-ink antialiased; /* fond crème, texte noir, police Inter */
+  }
+  h1, h2, h3 {
+    @apply font-medium;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   CLASSES RÉUTILISABLES
+   ───────────────────────────────────────────── */
+@layer components {
+  /* Conteneur centré, largeur max 1320px */
+  .container-site {
+    @apply mx-auto w-full max-w-site px-5 md:px-8;
+  }
+
+  /* Base commune à tous les boutons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition duration-200;
+  }
+  /* Bouton doré (action principale) */
+  .btn-gold {
+    @apply btn bg-gold text-ink hover:bg-gold-light;
+  }
+  /* Bouton contour blanc (sur fond sombre) */
+  .btn-outline-light {
+    @apply btn border border-white/70 text-white hover:bg-white hover:text-ink;
+  }
+  /* Coins peu arrondis au lieu de ronds (boutons du header et des cartes) */
+  .btn-rect {
+    @apply !rounded-md;
+  }
+
+  /* Titre de section : « Comment ça marche ? » */
+  .section-title {
+    @apply text-[34px] font-medium leading-tight tracking-tight;
+  }
+  /* Mot-marque en serif : « LEADORA », « LEADORA Match » */
+  .wordmark {
+    @apply font-serif font-medium tracking-[0.08em];
+  }
+}
