@@ -10,7 +10,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-cream font-sans text-ink antialiased; /* fond crème, texte noir, police Inter */
+    @apply overflow-x-hidden bg-cream font-sans text-ink antialiased; /* fond crème, texte noir, police Inter */
   }
   h1, h2, h3 {
     @apply font-medium;
@@ -21,6 +21,13 @@
    CLASSES RÉUTILISABLES
    ───────────────────────────────────────────── */
 @layer components {
+  /* Conteneur des pages, du header et du footer : largeur max 1440px,
+     marges qui s'adaptent à l'écran (20px mobile → 40px tablette → 80px grand écran).
+     À utiliser dans chaque nouvelle section pour qu'elle soit responsive. */
+  .container-page {
+    @apply mx-auto w-full max-w-[1440px] px-5 md:px-10 xl:px-20;
+  }
+
   /* Conteneur centré, largeur max 1320px */
   .container-site {
     @apply mx-auto w-full max-w-site px-5 md:px-8;

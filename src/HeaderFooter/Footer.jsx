@@ -25,16 +25,17 @@ const RESEAUX = [
   { label: 'TikTok', href: 'https://www.tiktok.com/', icone: 'M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5M14 4c0 2.5 2 4.5 4.5 4.5' },
 ];
 
-// Ligne de liens séparés par un petit trait vertical
+// Liens séparés par un petit trait vertical
+// (sur mobile : les uns sous les autres, sans trait)
 function Liens({ liens, clair }) {
   return (
-    <nav className="flex flex-wrap items-center">
+    <nav className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-y-2">
       {liens.map((lien, i) => (
         <Link
           key={lien.to}
           to={lien.to}
-          className={`px-3 text-[13px] transition-colors hover:text-gold first:pl-0 last:pr-0 ${
-            i > 0 ? 'border-l border-white/25' : ''
+          className={`text-[13px] transition-colors hover:text-gold sm:px-3 sm:first:pl-0 sm:last:pr-0 ${
+            i > 0 ? 'sm:border-l sm:border-white/25' : ''
           } ${clair ? 'text-white/80' : 'text-white/65'}`}
         >
           {lien.label}
@@ -47,10 +48,10 @@ function Liens({ liens, clair }) {
 export default function Footer() {
   return (
     <footer className="bg-ink text-white">
-      <div className="mx-auto flex max-w-[1440px] items-end justify-between gap-10 px-20 py-14">
+      <div className="container-page flex flex-col gap-10 py-12 xl:flex-row xl:items-end xl:justify-between xl:py-14">
         {/* Gauche : logo, phrase, navigation */}
         <div>
-          <Link to="/">
+          <Link to="/" className="inline-block">
             <img src={logo} alt="Logo LEADORA" className="h-10 w-auto" />
           </Link>
           <p className="mt-3.5 text-sm text-white/65">L’intelligence qui transforme vos projets en opportunités</p>
@@ -60,7 +61,7 @@ export default function Footer() {
         </div>
 
         {/* Droite : réseaux sociaux, liens légaux */}
-        <div className="flex flex-col items-end gap-6">
+        <div className="flex flex-col gap-6 xl:items-end">
           <div className="flex gap-[18px]">
             {RESEAUX.map((r) => (
               <a
@@ -83,7 +84,7 @@ export default function Footer() {
 
       {/* Copyright */}
       <div className="border-t border-white/10">
-        <p className="mx-auto max-w-[1440px] px-20 py-5 text-xs text-white/40">
+        <p className="container-page py-5 text-xs text-white/40">
           © {new Date().getFullYear()} LEADORA. Tous droits réservés.
         </p>
       </div>

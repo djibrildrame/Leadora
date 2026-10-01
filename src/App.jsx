@@ -17,8 +17,8 @@ export default function App() {
     <>
       <Header />
 
-      {/* pt-[84px] : décale le contenu sous le header, qui est fixe et fait 84px de haut */}
-      <main className="min-h-screen pt-[84px]">
+      {/* Décale le contenu sous le header fixe : 72px sur mobile/tablette, 84px à partir de 1280px */}
+      <main className="min-h-screen pt-[72px] xl:pt-[84px]">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/match" element={<Match />} />
