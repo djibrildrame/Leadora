@@ -1,3 +1,13 @@
-export default function Realty() {
-  return <h1 className="p-10 text-3xl">Realty</h1>;
-}
+import RealtyHero from './RealtyHero.jsx';
+import RealtyAvantages from './RealtyAvantages.jsx';
+
+const Realty = () => {
+  return (
+    <>
+      <RealtyHero />
+      <RealtyAvantages />
+    </>
+  );
+};
+
+export default Realty;

@@ -1,6 +1,7 @@
 import Hero from './Hero'
 import Techno from './Techno'
 import RealtyMatch from './RealtyMatch'
+import Vision from './Vision'
 
 const Home = () => {
   return (
@@ -8,6 +9,7 @@ const Home = () => {
     <Hero/>
     <Techno/>
     <RealtyMatch/>
+    <Vision/>
   
     </div>
   )

@@ -1,3 +1,13 @@
-export default function Match() {
-  return <h1 className="p-10 text-3xl">LEADORA Match</h1>;
-}
+import MatchHero from './MatchHero.jsx';
+import MatchPourquoi from './MatchPourquoi.jsx';
+
+const Match = () => {
+  return (
+    <>
+      <MatchHero />
+      <MatchPourquoi />
+    </>
+  );
+};
+
+export default Match;
