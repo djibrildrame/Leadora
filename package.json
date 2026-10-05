@@ -30,5 +30,16 @@
     "postcss": "^8.5.28",
     "tailwindcss": "^3.4.19",
     "vite": "^8.3.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djibrildrame/Leadora.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djibrildrame/Leadora/issues"
+  },
+  "homepage": "https://github.com/djibrildrame/Leadora#readme"
 }

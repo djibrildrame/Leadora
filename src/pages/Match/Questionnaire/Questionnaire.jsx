@@ -11,6 +11,9 @@ import Etape7Situation from './etapes/Etape7Situation.jsx';
 import Etape8Coordonnees from './etapes/Etape8Coordonnees.jsx';
 import Etape9Consentements from './etapes/Etape9Consentements.jsx';
 
+// Adresse du serveur (back). En ligne, on la changera dans un fichier .env du front.
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
 // Vérifie qu'un email a une forme correcte (texte@texte.texte)
 const emailValide = (email) => {
   const e = (email || '').trim();
@@ -102,12 +105,18 @@ export default function Questionnaire() {
     setReponses((anciennes) => ({ ...anciennes, [nom]: valeur }));
   };
 
+  // Pendant l'envoi au serveur : texte "Envoi en cours…" et les clics en plus sont ignorés
+  const [envoiEnCours, setEnvoiEnCours] = useState(false);
+  // Message affiché si l'envoi échoue
+  const [erreur, setErreur] = useState('');
+
   const derniereEtape = etape === ETAPES.length;
   const { question, sousTitre, Composant, estValide } = ETAPES[etape - 1];
   const peutContinuer = estValide(reponses);
 
-  const suivant = () => {
-    if (!peutContinuer) return; // sécurité : on ne passe pas si l'étape est incomplète
+  // async : on doit "attendre" (await) la réponse du serveur
+  const suivant = async () => {
+    if (!peutContinuer || envoiEnCours) return; // sécurité : étape incomplète ou envoi déjà lancé
 
     if (!derniereEtape) {
       setEtape(etape + 1);
@@ -115,10 +124,32 @@ export default function Questionnaire() {
       return;
     }
 
-    // Dernière étape : pour l'instant on affiche les réponses dans la console.
-    // Plus tard, c'est ici qu'on enverra les réponses au back (fetch).
-    console.log('Réponses du questionnaire :', reponses);
-    navigate('/confirmation', { state: { prenom: reponses.prenom } });
+    // Dernière étape : on envoie toutes les réponses au serveur
+    setEnvoiEnCours(true);
+    setErreur('');
+
+    try {
+      const reponse = await fetch(`${API_URL}/api/match`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(reponses), // l'objet des réponses transformé en texte JSON
+      });
+      const resultat = await reponse.json();
+
+      if (!reponse.ok || !resultat.ok) {
+        // Le serveur a refusé (champ manquant, erreur base...) : on affiche son message
+        setErreur(resultat.message || 'Une erreur est survenue, veuillez réessayer.');
+        return;
+      }
+
+      // Tout est bon : page de confirmation avec le prénom
+      navigate('/confirmation', { state: { prenom: reponses.prenom } });
+    } catch {
+      // Le serveur ne répond pas du tout (éteint, pas de connexion...)
+      setErreur('Impossible de contacter le serveur. Vérifiez votre connexion et réessayez.');
+    } finally {
+      setEnvoiEnCours(false); // dans tous les cas, on débloque le bouton
+    }
   };
 
   const precedent = () => {
@@ -137,10 +168,15 @@ export default function Questionnaire() {
         sousTitre={sousTitre}
         onSuivant={suivant}
         onPrecedent={etape > 1 ? precedent : null}
-        texteBouton={derniereEtape ? 'Valider mon projet' : 'Suivant'}
+        texteBouton={envoiEnCours ? 'Envoi en cours…' : derniereEtape ? 'Valider mon projet' : 'Suivant'}
         boutonActif={peutContinuer}
       >
         <Composant reponses={reponses} modifier={modifier} />
+
+        {/* Message d'erreur si l'envoi au serveur a échoué */}
+        {erreur && (
+          <p className="mt-5 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{erreur}</p>
+        )}
       </CarteEtape>
     </section>
   );

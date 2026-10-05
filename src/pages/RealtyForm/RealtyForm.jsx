@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// On réutilise les champs déjà faits pour le questionnaire Match
 import ChampTexte from '../Match/Questionnaire/components/ChampTexte.jsx';
 import ChampSelect from '../Match/Questionnaire/components/ChampSelect.jsx';
 
@@ -27,7 +26,6 @@ const BUDGETS = [
 
 const COLLABORATEURS = ['Indépendant', '2 à 5', '6 à 20', '21 à 50', 'Plus de 50'];
 
-// Vérifie qu'un email a une forme correcte (même fonction que le questionnaire)
 const emailValide = (email) => {
   const e = (email || '').trim();
   const arobase = e.indexOf('@');
