@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 const MatchHero = () => {
   return (
     <section className="relative flex min-h-[560px] items-center justify-center overflow-hidden bg-ink-soft text-center lg:min-h-[640px]">
-      {/* Photo de fond : salon avec vue mer */}
+      
       <img
         src="/src/img/polina-kuzovkova-zLCTdR6W8N4-unsplash.webp"
         alt="Salon lumineux avec vue sur la mer"
         className="absolute inset-0 h-full w-full object-cover"
       />
-      {/* Voile sombre pour que le texte reste lisible */}
+
       <div className="absolute inset-0 bg-ink/50" />
 
-      {/* Contenu centré */}
+
       <div className="relative mx-auto max-w-[820px] px-5 py-20">
         <h1>
           <span className="block font-serif text-[48px] font-medium leading-none tracking-[0.06em] text-gold-light md:text-[72px]">

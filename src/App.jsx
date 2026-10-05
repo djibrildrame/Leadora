@@ -3,7 +3,7 @@ import Header from './HeaderFooter/Header.jsx';
 import Footer from './HeaderFooter/Footer.jsx';
 import Home from './pages/Home/Home.jsx';
 import Match from './pages/Match/Match.jsx';
-import MatchForm from './pages/MatchForm/MatchForm.jsx';
+import Questionnaire from './pages/Match/Questionnaire/Questionnaire.jsx';
 import Confirmation from './pages/Confirmation/Confirmation.jsx';
 import Realty from './pages/Realty/Realty.jsx';
 import RealtyForm from './pages/RealtyForm/RealtyForm.jsx';
@@ -22,7 +22,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/match" element={<Match />} />
-          <Route path="/match/questionnaire" element={<MatchForm />} />
+          <Route path="/match/questionnaire" element={<Questionnaire />} />
           <Route path="/realty" element={<Realty />} />
           <Route path="/realty/devenir-partenaire" element={<RealtyForm />} />
           <Route path="/confirmation" element={<Confirmation />} />
