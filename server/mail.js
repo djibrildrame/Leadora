@@ -133,3 +133,67 @@ export async function envoyerMailMatch(d, id) {
     html,
   });
 }
+
+
+// ─────────────────────────────────────────────
+// Envoie au CLIENT un mail de confirmation avec le résumé de sa demande.
+// d  → les données enregistrées
+// id → le numéro de la demande
+// ─────────────────────────────────────────────
+export async function envoyerMailConfirmationClient(d, id) {
+  // Le résumé : seulement l'essentiel du projet
+  const resume = [
+    ['Projet', `${d.projet} · ${d.type_bien}`],
+    ['Localisation', [d.ville, d.region, d.pays].filter(Boolean).join(', ')],
+    ['Budget', d.budget_min ? `${prix(d.budget_min, d.devise)} à ${prix(d.budget_max, d.devise)}` : `Jusqu’à ${prix(d.budget_max, d.devise)}`],
+    ['Délai', d.delai],
+  ];
+
+  const html = `
+    <div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;color:#0B0D10">
+      <p style="font-family:Georgia,serif;font-size:22px;letter-spacing:3px;margin-bottom:24px">LEADORA</p>
+      <h2 style="font-family:Georgia,serif;font-weight:normal">Merci ${proteger(d.prenom)}, votre demande est bien reçue.</h2>
+      <p style="color:#6B6A66;line-height:1.6">
+        Notre équipe étudie votre projet et vous recontacte dans les plus brefs délais
+        pour vous mettre en relation avec le professionnel le plus adapté.
+      </p>
+
+      <h3 style="background:#F1E6D3;padding:8px 12px;margin:28px 0 0;font-size:14px">Récapitulatif de votre demande n°${id}</h3>
+      <table style="width:100%;border-collapse:collapse;font-size:14px">
+        ${resume
+          .map(
+            ([libelle, valeur]) => `
+          <tr>
+            <td style="padding:6px 12px;border-bottom:1px solid #D9D6D0;color:#6B6A66;width:35%">${libelle}</td>
+            <td style="padding:6px 12px;border-bottom:1px solid #D9D6D0">${proteger(afficher(valeur))}</td>
+          </tr>`
+          )
+          .join('')}
+      </table>
+
+      <p style="color:#6B6A66;line-height:1.6;margin-top:24px">
+        Une question ou une précision à ajouter ? Répondez simplement à cet email.
+      </p>
+      <p style="margin-top:32px">À très bientôt,<br><strong>L’équipe LEADORA</strong></p>
+    </div>`;
+
+  const texte = `Merci ${d.prenom}, votre demande est bien reçue.
+
+Notre équipe étudie votre projet et vous recontacte dans les plus brefs délais.
+
+RÉCAPITULATIF DE VOTRE DEMANDE N°${id}
+${resume.map(([l, v]) => `- ${l} : ${afficher(v)}`).join('\n')}
+
+Une question ? Répondez simplement à cet email.
+
+L’équipe LEADORA`;
+
+  await transporteur.sendMail({
+    from: `"LEADORA" <${process.env.MAIL_USER}>`,
+    to: d.email, // le client
+    replyTo: process.env.MAIL_ADMIN, // s'il répond, ça arrive chez l'administrateur
+    subject: `Votre demande LEADORA n°${id} est bien reçue`,
+    text: texte,
+    html,
+  });
+}

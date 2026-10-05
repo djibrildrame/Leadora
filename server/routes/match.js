@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import pool from '../db.js';
-import { envoyerMailMatch } from '../mail.js';
+import { envoyerMailMatch, envoyerMailConfirmationClient } from '../mail.js';
 
 const router = Router();
 
@@ -98,6 +98,15 @@ router.post('/', async (req, res) => {
       console.log(`✉️  Mail envoyé à ${process.env.MAIL_ADMIN}`);
     } catch (erreurMail) {
       console.error('Erreur envoi mail :', erreurMail.message);
+    }
+
+
+    // 5. On envoie au client un mail de confirmation avec le résumé de sa demande.
+    try {
+      await envoyerMailConfirmationClient(donnees, demande.id);
+      console.log(`✉️  Confirmation envoyée au client (${donnees.email})`);
+    } catch (erreurMail) {
+      console.error('Erreur mail client :', erreurMail.message);
     }
 
     res.status(201).json({ ok: true, id: demande.id });
